@@ -1,4 +1,4 @@
-package com.excoder.productservice.config;
+package com.excoder.orderservice.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;

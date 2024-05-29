@@ -1,8 +1,8 @@
-package com.excoder.productservice;
+package com.excoder.orderservice;
 
 
-import com.excoder.productservice.model.Product;
-import com.excoder.productservice.repository.ProductRepository;
+import com.excoder.orderservice.model.Order;
+import com.excoder.orderservice.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class MainApplication {
 	}
 
 	@Autowired
-	ProductRepository ProductRepository;
+	OrderRepository OrderRepository;
 
 	// Run this if app.db.init.enabled = true
 	@Bean
@@ -35,20 +35,20 @@ public class MainApplication {
 
 			System.out.println("Running.....");
 
-			Product p1 = new Product(1, "iPhone 11", "Silver" ,
+			Order p1 = new Order(1, 1001, "Created" , "Address 1",
 					BigDecimal.valueOf(39999.00),
 					LocalDate.of(2023, 8, 31));
-			Product p2 = new Product(2, "iPhone 12", "Gold" ,
+			Order p2 = new Order(2, 1002, "Updated" , "Address 2",
 					BigDecimal.valueOf(49999.00),
 					LocalDate.of(2023, 10, 31));
-			Product p3 = new Product(3, "iPhone 13", "Midnight Black" ,
+			Order p3 = new Order(3, 1003, "Rejected" , "Address 3",
 					BigDecimal.valueOf(59999.00),
 					LocalDate.of(2023, 12, 31));
-			Product p4 = new Product(4, "iPhone 14", "Rose Gold" ,
+			Order p4 = new Order(4, 1004, "Out for delivery" , "Address 4",
 					BigDecimal.valueOf(69999.00),
 					LocalDate.of(2024, 05, 30));
 
-			ProductRepository.saveAll(List.of(p1, p2, p3, p4));
+			OrderRepository.saveAll(List.of(p1, p2, p3, p4));
 
 		};
 	}

@@ -1,4 +1,4 @@
-package com.excoder.productservice.controller;
+package com.excoder.orderservice.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
