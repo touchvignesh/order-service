@@ -1,30 +1,38 @@
 package com.excoder.orderservice.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Document("order")
 public class Order {
 
     @MongoId(FieldType.OBJECT_ID)
     private Integer id;
+
     private Integer customerId;
+
     @Indexed
     private String status;
+
     @Indexed
     private String address;
+
     private BigDecimal orderTotal;
     private LocalDate createdDate;
 
-    public Order() {
-    }
+    public Order() {}
 
-    public Order(Integer id, Integer customerId, String status, String address, BigDecimal orderTotal, LocalDate createdDate) {
+    public Order(
+            Integer id,
+            Integer customerId,
+            String status,
+            String address,
+            BigDecimal orderTotal,
+            LocalDate createdDate) {
         this.id = id;
         this.customerId = customerId;
         this.status = status;
@@ -81,4 +89,3 @@ public class Order {
         this.createdDate = createdDate;
     }
 }
-

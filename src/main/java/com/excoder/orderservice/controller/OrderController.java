@@ -2,14 +2,22 @@ package com.excoder.orderservice.controller;
 
 import com.excoder.orderservice.model.Order;
 import com.excoder.orderservice.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -17,58 +25,57 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private OrderService OrderService;
+    private OrderService orderService;
 
     @GetMapping("/list/all")
     public List<Order> findAll() {
-        return OrderService.findAll();
+        return orderService.findAll();
     }
 
     @GetMapping("/list/id/{id}")
     public Optional<Order> findById(@PathVariable Integer id) {
-        return OrderService.findById(id);
+        return orderService.findById(id);
     }
 
     @GetMapping("/list/customerid/{customerId}")
     public Optional<Order> findByCustomerId(@PathVariable Integer customerId) {
-        return OrderService.findByCustomerId(customerId);
+        return orderService.findByCustomerId(customerId);
     }
 
     // create an order
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping("/create")
     public Order create(@RequestBody Order order) {
-        return OrderService.save(order);
+        return orderService.save(order);
     }
 
     // update an order
     @PutMapping("/update")
     public Order update(@RequestBody Order order) {
-        return OrderService.save(order);
+        return orderService.save(order);
     }
 
     // delete an order
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @DeleteMapping("/id/{id}")
     public void deleteById(@PathVariable Integer id) {
-        OrderService.deleteById(id);
+        orderService.deleteById(id);
     }
 
     // delete an order by customerId
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @DeleteMapping("/customerid/{customerId}")
     public void deleteByCustomerId(@PathVariable Integer customerId) {
-        OrderService.deleteByCustomerId(customerId);
+        orderService.deleteByCustomerId(customerId);
     }
 
     @GetMapping("/list/status/{status}")
     public List<Order> findByStatus(@PathVariable String status) {
-        return OrderService.findByStatus(status);
+        return orderService.findByStatus(status);
     }
 
     @GetMapping("/list/date-after/{date}")
     public List<Order> findByCreatedDateAfter(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return OrderService.findByCreatedDateAfter(date);
+        return orderService.findByCreatedDateAfter(date);
     }
-
 }

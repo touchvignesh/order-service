@@ -1,12 +1,11 @@
 package com.excoder.orderservice.repository;
 
 import com.excoder.orderservice.model.Order;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface OrderRepository extends MongoRepository<Order, Integer> {
 
@@ -17,5 +16,4 @@ public interface OrderRepository extends MongoRepository<Order, Integer> {
     Optional<Order> findByCustomerId(Integer customerId);
 
     void deleteByCustomerId(Integer customerId);
-
 }

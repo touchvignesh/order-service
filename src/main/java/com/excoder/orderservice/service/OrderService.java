@@ -2,17 +2,20 @@ package com.excoder.orderservice.service;
 
 import com.excoder.orderservice.model.Order;
 import com.excoder.orderservice.repository.OrderRepository;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class OrderService {
+
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     private KafkaTemplate<String, Order> kafkaTemplate;
@@ -21,46 +24,47 @@ public class OrderService {
     private String orderTopic;
 
     @Autowired
-    private OrderRepository OrderRepository;
+    private OrderRepository orderRepository;
 
     public List<Order> findAll() {
-        return OrderRepository.findAll();
+        return orderRepository.findAll();
     }
 
     public Optional<Order> findById(Integer id) {
-        return OrderRepository.findById(id);
+        return orderRepository.findById(id);
     }
 
     public Optional<Order> findByCustomerId(Integer customerId) {
-        return OrderRepository.findByCustomerId(customerId);
+        return orderRepository.findByCustomerId(customerId);
     }
 
     public Order save(Order order) {
-        OrderRepository.save(order);
-        var message_success = kafkaTemplate.send(orderTopic, order);
-        message_success.whenComplete((sendResult, exception) -> {
+        orderRepository.save(order);
+        var successMessage = kafkaTemplate.send(orderTopic, order);
+        successMessage.whenComplete((sendResult, exception) -> {
             if (exception != null) {
-                message_success.completeExceptionally(exception);
+                successMessage.completeExceptionally(exception);
             } else {
-                message_success.complete(sendResult);
+                successMessage.complete(sendResult);
             }
-            System.out.println(sendResult);
+            log.info(String.valueOf(sendResult));
         });
         return order;
     }
 
     public void deleteById(Integer id) {
-        OrderRepository.deleteById(id);
+        orderRepository.deleteById(id);
     }
 
     public void deleteByCustomerId(Integer customerId) {
-        OrderRepository.deleteByCustomerId(customerId);
+        orderRepository.deleteByCustomerId(customerId);
     }
+
     public List<Order> findByStatus(String status) {
-        return OrderRepository.findByStatus(status);
+        return orderRepository.findByStatus(status);
     }
 
     public List<Order> findByCreatedDateAfter(LocalDate createdDate) {
-        return OrderRepository.findByCreatedDateAfter(createdDate);
+        return orderRepository.findByCreatedDateAfter(createdDate);
     }
 }
