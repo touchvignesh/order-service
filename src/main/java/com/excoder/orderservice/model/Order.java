@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @AllArgsConstructor
@@ -16,17 +16,25 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document("order")
 public class Order {
 
-    @MongoId(FieldType.OBJECT_ID)
+    @Id
     private Integer id;
 
+    @Indexed(unique = true)
+    @Field("order_id")
+    private Integer orderId;
+
+    @Indexed
+    @Field("customer_id")
     private Integer customerId;
 
     @Indexed
     private String status;
 
-    @Indexed
     private String address;
 
+    @Field("order_total")
     private BigDecimal orderTotal;
+
+    @Field("created_date")
     private LocalDate createdDate;
 }

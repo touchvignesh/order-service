@@ -1,5 +1,7 @@
 package com.excoder.orderservice.controller;
 
+import com.excoder.orderservice.component.OrderConverter;
+import com.excoder.orderservice.dto.OrderDTO;
 import com.excoder.orderservice.model.Order;
 import com.excoder.orderservice.service.OrderService;
 import java.time.LocalDate;
@@ -27,6 +29,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    OrderConverter orderConverter;
+
     @GetMapping("/list/all")
     public List<Order> findAll() {
         return orderService.findAll();
@@ -45,14 +50,14 @@ public class OrderController {
     // create an order
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping("/create")
-    public Order create(@RequestBody Order order) {
-        return orderService.save(order);
+    public OrderDTO create(@RequestBody OrderDTO orderDTO) {
+        return orderService.save(orderDTO);
     }
 
     // update an order
     @PutMapping("/update")
-    public Order update(@RequestBody Order order) {
-        return orderService.save(order);
+    public OrderDTO update(@RequestBody OrderDTO orderDTO) {
+        return orderService.save(orderDTO);
     }
 
     // delete an order

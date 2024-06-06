@@ -33,14 +33,20 @@ public class MainApplication {
         return args -> {
             log.info("Running");
 
-            Order p1 =
-                    new Order(1, 1001, "Created", "Address 1", BigDecimal.valueOf(39999.00), LocalDate.of(2023, 8, 31));
+            Order p1 = new Order(
+                    1, 101, 1001, "Created", "Address 1", BigDecimal.valueOf(39999.00), LocalDate.of(2023, 8, 31));
             Order p2 = new Order(
-                    2, 1002, "Updated", "Address 2", BigDecimal.valueOf(49999.00), LocalDate.of(2023, 10, 31));
+                    2, 102, 1002, "Updated", "Address 2", BigDecimal.valueOf(49999.00), LocalDate.of(2023, 10, 31));
             Order p3 = new Order(
-                    3, 1003, "Rejected", "Address 3", BigDecimal.valueOf(59999.00), LocalDate.of(2023, 12, 31));
+                    3, 103, 1003, "Rejected", "Address 3", BigDecimal.valueOf(59999.00), LocalDate.of(2023, 12, 31));
             Order p4 = new Order(
-                    4, 1004, "Out for delivery", "Address 4", BigDecimal.valueOf(69999.00), LocalDate.of(2024, 05, 30));
+                    4,
+                    104,
+                    1004,
+                    "Out for delivery",
+                    "Address 4",
+                    BigDecimal.valueOf(69999.00),
+                    LocalDate.of(2024, 05, 30));
 
             orderRepository.saveAll(List.of(p1, p2, p3, p4));
         };

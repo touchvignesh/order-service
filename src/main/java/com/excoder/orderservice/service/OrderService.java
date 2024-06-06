@@ -1,5 +1,7 @@
 package com.excoder.orderservice.service;
 
+import com.excoder.orderservice.component.OrderConverter;
+import com.excoder.orderservice.dto.OrderDTO;
 import com.excoder.orderservice.model.Order;
 import com.excoder.orderservice.repository.OrderRepository;
 import java.time.LocalDate;
@@ -18,6 +20,9 @@ public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
+    OrderConverter orderConverter;
+
+    @Autowired
     private KafkaTemplate<String, Order> kafkaTemplate;
 
     @Value("${spring.kafka.topic.name}")
@@ -31,15 +36,16 @@ public class OrderService {
     }
 
     public Optional<Order> findById(Integer id) {
-        return orderRepository.findById(id);
+        return orderRepository.findByOrderId(id);
     }
 
     public Optional<Order> findByCustomerId(Integer customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
 
-    public Order save(Order order) {
-        orderRepository.save(order);
+    public OrderDTO save(OrderDTO orderDTO) {
+        Order order = orderConverter.convertOrderDtoToEntity(orderDTO);
+        order = orderRepository.save(order);
         var successMessage = kafkaTemplate.send(orderTopic, order);
         successMessage.whenComplete((sendResult, exception) -> {
             if (exception != null) {
@@ -49,11 +55,11 @@ public class OrderService {
             }
             log.info(String.valueOf(sendResult));
         });
-        return order;
+        return orderConverter.convertOrderEntityToDto(order);
     }
 
     public void deleteById(Integer id) {
-        orderRepository.deleteById(id);
+        orderRepository.deleteByOrderId(id);
     }
 
     public void deleteByCustomerId(Integer customerId) {

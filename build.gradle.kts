@@ -24,6 +24,7 @@ dependencies {
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("org.modelmapper:modelmapper:3.2.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
