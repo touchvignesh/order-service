@@ -22,6 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.kafka:spring-kafka:3.1.4")
     implementation("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
